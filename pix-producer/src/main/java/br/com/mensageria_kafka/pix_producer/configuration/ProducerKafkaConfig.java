@@ -1,6 +1,7 @@
 package br.com.mensageria_kafka.pix_producer.configuration;
 
-import br.com.mensageria_kafka.pix_producer.dto.PixDto;
+import br.com.mensageria_kafka.pix_producer.dto.PixCreateDto;
+import br.com.mensageria_kafka.pix_producer.dto.PixResponseDto;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -21,7 +22,7 @@ public class ProducerKafkaConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, PixDto> producerFactory() {
+    public ProducerFactory<String, PixResponseDto> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -30,7 +31,7 @@ public class ProducerKafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, PixDto> kafkaTemplate() {
+    public KafkaTemplate<String, PixResponseDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

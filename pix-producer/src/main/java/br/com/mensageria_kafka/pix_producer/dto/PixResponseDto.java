@@ -8,20 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class PixDto {
+public class PixResponseDto {
 
-    @NotBlank
     private String identifier;
-
-    @NotBlank
     private String originKey;
-
-    @NotBlank
     private String destinationKey;
-
-    @NotNull
-    @Positive
-    private Double value;
+    private BigDecimal value;
+    private LocalDateTime transferDate;
 
 }

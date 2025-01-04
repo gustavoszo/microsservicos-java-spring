@@ -1,6 +1,6 @@
-package br.com.mensageria_kafka.pix_producer.entities;
+package br.com.mensageria_kafka.pix_consumer.entities;
 
-import br.com.mensageria_kafka.pix_producer.entities.enums.StatusPix;
+import br.com.mensageria_kafka.pix_consumer.entities.enums.StatusPix;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,24 +15,19 @@ import java.time.LocalDateTime;
 @Table(name = "pix")
 public class Pix {
 
-    public Pix(String identifier, String originKey, String destinationKey, BigDecimal value) {
-        this.identifier = identifier;
-        this.originKey = originKey;
-        this.destinationKey = destinationKey;
-        this.value = value;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String identifier;
 
-    @Column(name = "origin_key")
-    private String originKey;
+    @OneToMany
+    @JoinColumn(name = "origin_key")
+    private Key originKey;
 
-    @Column(name = "destination_key")
-    private String destinationKey;
+    @OneToMany
+    @JoinColumn(name = "destination_key")
+    private Key destinationKey;
 
     private BigDecimal value;
 

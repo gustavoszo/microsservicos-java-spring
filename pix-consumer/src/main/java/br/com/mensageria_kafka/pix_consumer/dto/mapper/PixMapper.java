@@ -1,4 +1,4 @@
-package br.com.mensageria_kafka.pix_producer.dto.mapper;
+package br.com.mensageria_kafka.pix_consumer.dto.mapper;
 
 import br.com.mensageria_kafka.pix_producer.dto.PixCreateDto;
 import br.com.mensageria_kafka.pix_producer.dto.PixResponseDto;
