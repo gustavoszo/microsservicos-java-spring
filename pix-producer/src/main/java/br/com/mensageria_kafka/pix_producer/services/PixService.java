@@ -1,6 +1,5 @@
 package br.com.mensageria_kafka.pix_producer.services;
 
-import br.com.mensageria_kafka.pix_producer.dto.PixCreateDto;
 import br.com.mensageria_kafka.pix_producer.dto.PixResponseDto;
 import br.com.mensageria_kafka.pix_producer.dto.mapper.PixMapper;
 import br.com.mensageria_kafka.pix_producer.entities.Pix;
@@ -14,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class PixService {
 
-    @Value(value = "{spring.kafka.topic.sent.pix}")
-    private final String topic;
+    @Value("${spring.kafka.topic.sent.pix}")
+    private String topic;
 
     private final PixRepository pixRepository;
     private final KafkaTemplate<String, PixResponseDto> kafkaTemplate;
