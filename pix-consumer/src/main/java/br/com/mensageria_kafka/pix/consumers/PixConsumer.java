@@ -27,9 +27,7 @@ public class PixConsumer {
             include = KeyNotFoundException.class
     )
     public void pixListener(PixResponseDto pixDto) {
-        System.out.println(pixDto.getIdentifier());
         var pix = pixService.findByIdentifier(pixDto.getIdentifier());
-        System.out.println(pix.getStatus().toString());
 
         var originKey = keyService.findByKey(pixDto.getOriginKey());
         var destinationKey = keyService.findByKey(pixDto.getDestinationKey());

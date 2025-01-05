@@ -17,6 +17,7 @@ public class PixSerdes extends Serdes.WrapperSerde<PixResponseDto> {
     public static Serde<PixResponseDto> serdes() {
         JsonSerializer<PixResponseDto> serializer = new JsonSerializer<>();
         JsonDeserializer<PixResponseDto> deserializer = new JsonDeserializer<>(PixResponseDto.class);
+        deserializer.addTrustedPackages("br.com.mensageria_kafka.pix.dto");
         return Serdes.serdeFrom(serializer, deserializer);
     }
 

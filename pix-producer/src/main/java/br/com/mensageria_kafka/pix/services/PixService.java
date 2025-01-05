@@ -26,7 +26,6 @@ public class PixService {
 
     @Transactional
     public Pix save(Pix pix) {
-        System.out.println(pix.getDestinationKey());
         pix.setIdentifier(UUID.randomUUID().toString());
         pix.setStatus(StatusPix.PROCESSING);
         pix.setTransferDate(LocalDateTime.now());
