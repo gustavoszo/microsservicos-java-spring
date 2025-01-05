@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.mensageria-kafka</groupId>
-	<artifactId>pix-producer</artifactId>
+	<artifactId>pix</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>pix-producer</name>
+	<name>pix</name>
 	<description>Microsserviço produtor do Pix</description>
 	<url/>
 	<licenses>
