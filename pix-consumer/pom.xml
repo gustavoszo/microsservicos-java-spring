@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.mensageria-kafka</groupId>
-	<artifactId>pix</artifactId>
+	<artifactId>pix-consumer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>pix</name>
 	<description>Microserviço consumidor do Pix</description>

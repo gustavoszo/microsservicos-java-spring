@@ -1,6 +1,6 @@
-package br.com.mensageria_kafka.pix.entities;
+package br.com.mensageria_kafka.pix_consumer.entities;
 
-import br.com.mensageria_kafka.pix.entities.enums.StatusPix;
+import br.com.mensageria_kafka.pix_consumer.entities.enums.StatusPix;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,10 +1,10 @@
-package br.com.mensageria_kafka.pix.consumers;
+package br.com.mensageria_kafka.pix_consumer.consumers;
 
-import br.com.mensageria_kafka.pix.dto.PixResponseDto;
-import br.com.mensageria_kafka.pix.entities.enums.StatusPix;
-import br.com.mensageria_kafka.pix.exception.KeyNotFoundException;
-import br.com.mensageria_kafka.pix.services.KeyService;
-import br.com.mensageria_kafka.pix.services.PixService;
+import br.com.mensageria_kafka.pix_consumer.dto.PixResponseDto;
+import br.com.mensageria_kafka.pix_consumer.entities.enums.StatusPix;
+import br.com.mensageria_kafka.pix_consumer.exception.KeyNotFoundException;
+import br.com.mensageria_kafka.pix_consumer.services.KeyService;
+import br.com.mensageria_kafka.pix_consumer.services.PixService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;

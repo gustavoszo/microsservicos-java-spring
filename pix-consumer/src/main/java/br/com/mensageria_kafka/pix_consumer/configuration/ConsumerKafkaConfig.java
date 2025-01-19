@@ -1,6 +1,6 @@
-package br.com.mensageria_kafka.pix.configuration;
+package br.com.mensageria_kafka.pix_consumer.configuration;
 
-import br.com.mensageria_kafka.pix.dto.PixResponseDto;
+import br.com.mensageria_kafka.pix_consumer.dto.PixResponseDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

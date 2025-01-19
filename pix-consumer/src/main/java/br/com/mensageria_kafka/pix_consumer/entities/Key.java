@@ -1,4 +1,4 @@
-package br.com.mensageria_kafka.pix.entities;
+package br.com.mensageria_kafka.pix_consumer.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

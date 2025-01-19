@@ -1,0 +1,71 @@
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181  # Porta que o Zookeeper escuta para conexões clientes (Kafka se conecta a ela).
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+  
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT  # Define o protocolo de comunicação como sem criptografia.
+      KAFKA_ADVERTISED_LISTENER: INSIDE://kafka:9093  # Como o Kafka se anuncia para outros serviços, usando o nome de host "kafka" e a porta 9093.
+      KAFKA_LISTENER_PORT: 9093
+      KAFKA_LISTENER_HOSTNAME: kafka
+      KAFKA_LISTENER_INTERFACES: INSIDE  # Interface interna do Kafka.
+      KAFKA_LISTENER_NAME: INSIDE  # Nome para a interface interna do Kafka.
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - "9093:9093"
+    depends_on:
+      - zookeeper
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:latest
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181  # Conexão com o Zookeeper, pois o Schema Registry precisa dele.
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081  # Porta onde o Schema Registry estará disponível (porta 8081).
+    ports:
+      - "8081:8081"
+    depends_on:
+      - kafka
+
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:latest
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka:9093 # O Kafka Connect se conecta ao Kafka, que está escutando na porta 9093.
+      CONNECT_REST_ADVERTISED_LISTENER: http://localhost:8083  # O Kafka Connect expõe sua API REST na porta 8083.
+      CONNECT_GROUP_ID: "kafka-connect-group"  # Identificador do grupo de conectores do Kafka Connect.
+      CONNECT_CONFIG_STORAGE_TOPIC: "_connect-configs"  # Tópico Kafka para armazenar as configurações dos conectores.
+      CONNECT_OFFSET_STORAGE_TOPIC: "_connect-offsets"  # Tópico Kafka para armazenar os offsets dos conectores.
+      CONNECT_STATUS_STORAGE_TOPIC: "_connect-status"  # Tópico Kafka para armazenar o status dos conectores.
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.storage.StringConverter"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_LOG4J_ROOT_LOGLEVEL: DEBUG
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - schema-registry
+
+  control-center:
+    image: confluentinc/cp-control-center:latest
+    environment:
+      CONTROL_CENTER_KAFKA_BROKERCONNECT: kafka:9093
+      CONTROL_CENTER_ZOOKEEPER_CONNECT: zookeeper:2181  # O Control Center se conecta ao Zookeeper para gerenciar o estado.
+      CONTROL_CENTER_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      CONTROL_CENTER_LISTENER_NAME: INSIDE
+    ports:
+      - "9021:9021"
+    depends_on:
+      - kafka  # O Control Center precisa do Kafka para coletar métricas e dados.
+      - schema-registry  # O Control Center também precisa do Schema Registry para visualizar esquemas.
+      - kafka-connect  # E o Kafka Connect para monitorar conectores e suas operações.
+
+networks:
+  default:
+    driver: bridge

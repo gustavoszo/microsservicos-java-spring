@@ -1,0 +1,12 @@
+{
+    "namespace": "br.com.mensageria_kafka.pix.avro",
+    "type": "record",
+    "name": "PixRecord",
+    "fields": [
+        {"name": "identifier", "type": "string"},
+        {"name": "originKey", "type": "string"},
+        {"name": "destinationKey", "type": "string"},
+        {"name": "value", "type": "double"},
+        {"name": "transferDate", "type": "string"}
+    ]
+}

@@ -1,5 +1,6 @@
 package br.com.mensageria_kafka.pix.services;
 
+import br.com.mensageria_kafka.pix.avro.PixRecord;
 import br.com.mensageria_kafka.pix.dto.PixResponseDto;
 import br.com.mensageria_kafka.pix.dto.mapper.PixMapper;
 import br.com.mensageria_kafka.pix.entities.Pix;
@@ -22,7 +23,7 @@ public class PixService {
     private String topic;
 
     private final PixRepository pixRepository;
-    private final KafkaTemplate<String, PixResponseDto> kafkaTemplate;
+    private final KafkaTemplate<String, PixRecord> kafkaTemplate;
 
     @Transactional
     public Pix save(Pix pix) {
@@ -31,7 +32,15 @@ public class PixService {
         pix.setTransferDate(LocalDateTime.now());
         pixRepository.save(pix);
 
-        kafkaTemplate.send(topic, pix.getIdentifier(), PixMapper.toPixResponseDto(pix));
+        var pixRecord = PixRecord.newBuilder()
+                .setIdentifier(pix.getIdentifier())
+                .setOriginKey(pix.getOriginKey())
+                .setDestinationKey(pix.getDestinationKey())
+                .setTransferDate(pix.getTransferDate().toString())
+                .setValue(pix.getValue().doubleValue())
+                .build();
+
+        kafkaTemplate.send(topic, pix.getIdentifier(), pixRecord);
         return pix;
     }
 

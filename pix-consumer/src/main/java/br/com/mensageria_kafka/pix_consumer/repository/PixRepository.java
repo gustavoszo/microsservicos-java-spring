@@ -1,6 +1,6 @@
-package br.com.mensageria_kafka.pix.repository;
+package br.com.mensageria_kafka.pix_consumer.repository;
 
-import br.com.mensageria_kafka.pix.entities.Pix;
+import br.com.mensageria_kafka.pix_consumer.entities.Pix;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PixRepository extends JpaRepository<Pix, Long> {

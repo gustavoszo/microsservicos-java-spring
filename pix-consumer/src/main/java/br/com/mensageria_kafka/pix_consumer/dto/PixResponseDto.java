@@ -1,4 +1,4 @@
-package br.com.mensageria_kafka.pix.dto;
+package br.com.mensageria_kafka.pix_consumer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

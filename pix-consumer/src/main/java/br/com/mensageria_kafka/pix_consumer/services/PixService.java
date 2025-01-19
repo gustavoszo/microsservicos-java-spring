@@ -1,7 +1,7 @@
-package br.com.mensageria_kafka.pix.services;
+package br.com.mensageria_kafka.pix_consumer.services;
 
-import br.com.mensageria_kafka.pix.entities.Pix;
-import br.com.mensageria_kafka.pix.repository.PixRepository;
+import br.com.mensageria_kafka.pix_consumer.entities.Pix;
+import br.com.mensageria_kafka.pix_consumer.repository.PixRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

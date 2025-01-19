@@ -1,7 +1,7 @@
-package br.com.mensageria_kafka.pix.dto.mapper;
+package br.com.mensageria_kafka.pix_consumer.dto.mapper;
 
-import br.com.mensageria_kafka.pix.dto.PixResponseDto;
-import br.com.mensageria_kafka.pix.entities.Pix;
+import br.com.mensageria_kafka.pix_consumer.dto.PixResponseDto;
+import br.com.mensageria_kafka.pix_consumer.entities.Pix;
 
 public class PixMapper {
 
