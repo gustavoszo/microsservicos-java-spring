@@ -1,6 +1,9 @@
 package br.com.mensageria_kafka.pix_consumer.configuration;
 
+import br.com.mensageria_kafka.pix_consumer.avro.PixRecord;
 import br.com.mensageria_kafka.pix_consumer.dto.PixResponseDto;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -25,11 +28,15 @@ public class ConsumerKafkaConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ConsumerFactory<String, PixResponseDto> consumerFactory() {
+    public ConsumerFactory<String, PixRecord> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class);
+        props.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true); //  Configuração que garante que o consumidor receba um objeto específico (neste caso, PixRecord) em vez de um GenericRecord (um tipo genérico do Avro).
+
+        props.put("schema.registry.url", "http://localhost:8081");
+
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ALLOW_AUTO_CREATE_TOPICS_CONFIG, false);
@@ -40,8 +47,8 @@ public class ConsumerKafkaConfig {
 
     // uma fábrica que cria containers para escutar as mensagens em tópicos Kafka. Ela pode lidar com múltiplos consumidores de forma concorrente (em paralelo), o que melhora a escalabilidade do sistema.
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, PixResponseDto> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, PixResponseDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, PixRecord> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, PixRecord> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }

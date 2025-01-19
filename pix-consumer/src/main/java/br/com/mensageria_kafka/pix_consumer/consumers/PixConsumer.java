@@ -1,5 +1,6 @@
 package br.com.mensageria_kafka.pix_consumer.consumers;
 
+import br.com.mensageria_kafka.pix_consumer.avro.PixRecord;
 import br.com.mensageria_kafka.pix_consumer.dto.PixResponseDto;
 import br.com.mensageria_kafka.pix_consumer.entities.enums.StatusPix;
 import br.com.mensageria_kafka.pix_consumer.exception.KeyNotFoundException;
@@ -26,11 +27,11 @@ public class PixConsumer {
             autoCreateTopics = "true",
             include = KeyNotFoundException.class
     )
-    public void pixListener(PixResponseDto pixDto) {
-        var pix = pixService.findByIdentifier(pixDto.getIdentifier());
+    public void pixListener(PixRecord pixRecord) {
+        var pix = pixService.findByIdentifier(pixRecord.getIdentifier().toString());
 
-        var originKey = keyService.findByKey(pixDto.getOriginKey());
-        var destinationKey = keyService.findByKey(pixDto.getDestinationKey());
+        var originKey = keyService.findByKey(pixRecord.getOriginKey().toString());
+        var destinationKey = keyService.findByKey(pixRecord.getDestinationKey().toString());
 
         if (originKey != null && destinationKey != null) {
             pix.setStatus(StatusPix.PROCESSED);
