@@ -1,5 +1,3 @@
-# **Microsserviços - comunicação assíncrona e mensageria com Kafka**
-
 Este projeto implementa uma arquitetura de microserviços desenvolvidos com Java e Spring para simular transferências PIX. O sistema realiza a comunicação assíncrona entre os microserviços usando o **Apache Kafka**.
 
 ## **Visão Geral dos Microserviços**
